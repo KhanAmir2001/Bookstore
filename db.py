@@ -10,7 +10,8 @@ def books():
     con = sqlite3.connect('books.db')
     
     try:
-        con.execute('CREATE TABLE books (name TEXT, id INT price FLOAT)')
+        con.execute('CREATE TABLE books (name TEXT, id INT, price FLOAT)')
+        
         print ('Table made')
     except:
         pass
@@ -20,7 +21,10 @@ def books():
     
     con = sqlite3.connect("books.db")
     con.row_factory = sqlite3.Row
-    cur.execute("SELECT * from students")
+    cur = con.cursor()
+    cur.execute("SELECT * from books")
     rows = cur.fetchall();
     
     return render_template("books.html",rows = rows)
+
+app.run(host="0.0.0.0")
