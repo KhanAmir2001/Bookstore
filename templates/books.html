@@ -1,8 +1,19 @@
 <html>
-    <head>
-        <title>gaming</title>
-    </head>
-    <body>
-        <MARQUEE>GAMER</MARQUEE>
-    </body>
+   <body>
+      <table border = 1>
+         <thead>
+            <td>Name</td>
+            <td>ID</td>
+            <td>Price</td>
+         </thead>
+         
+         {% for row in rows %}
+            <tr>
+               <td>{{row["name"]}}</td>
+               <td>{{row['id']}}</td>
+                <td>{{row['price']}}</td>	
+            </tr>
+         {% endfor %}
+      </table>
+   </body>
 </html>
