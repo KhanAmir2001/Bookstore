@@ -23,7 +23,7 @@ def show_the_login_form():
 def do_the_login(u,p):
     con = sqlite3.connect('users.db')
     cur = con.cursor();
-    cur.execute("SELECT count(*) FROM users WHERE name=? AND pwd=?;", (u, p))
+    cur.execute("SELECT count(*) FROM users WHERE Username=? AND Password=?;", (u, p))
     if(int(cur.fetchone()[0]))>0:
         return f'<H1>Success!</H1>'
     else:
