@@ -24,17 +24,45 @@ def show_the_login_form():
 def do_the_login(u,p):
     con = sqlite3.connect('users.db')
     cur = con.cursor();
-    if u == "admin" and p == "p445w0rd":
-         return redirect(url_for('stocks'))
+    #if u == "admin" and p == "p455w0rd":
+        # return redirect(url_for('admin'))
     cur.execute("SELECT count(*) FROM users WHERE Username=? AND Password=?;", (u, p))
     
     if(int(cur.fetchone()[0]))>0:
-        return f'<H1>Success!</H1>'
+        return redirect(url_for('homepage'))
     else:
         abort(403)
     
 @app.route("/stocks")
-def stocks():
+def admin():
     return render_template('stocks.html')
+
+@app.route("/", methods=['GET'])
+def homepage():
+        
+    if request.method == 'GET':
+        print("hello")
+    con = sqlite3.connect('books.db')
+    
+    try:
+        con.execute('CREATE TABLE books (name TEXT, id INT, price FLOAT)')
+        
+        print ('Table made')
+    except:
+        pass
+        print("table already created")
+        
+    con.close()
+    
+    con = sqlite3.connect("books.db")
+    con.row_factory = sqlite3.Row
+    cur = con.cursor()
+    cur.execute("SELECT * from books")
+    rows = cur.fetchall();
+    
+    return render_template("books.html",rows = rows)
+
+
+    
     
 app.run(host="0.0.0.0")

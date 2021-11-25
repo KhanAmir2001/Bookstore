@@ -6,7 +6,6 @@ app = Flask(__name__)
 
 @app.route('/books')
 def books():
-    
     con = sqlite3.connect('books.db')
     
     try:
