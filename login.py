@@ -37,14 +37,14 @@ def do_the_login(u,p):
 def admin():
     return render_template('stocks.html')
 
-@app.route("/", methods=['GET'])
+@app.route("/", methods=['GET', 'POST'])
 def homepage():
         
-    if request.method == 'GET':
-        print("hello")
+    if request.method == 'POST':
+        return redirect(url_for('admin'))
     con = sqlite3.connect('books.db')
     
-    try:
+    try: 
         con.execute('CREATE TABLE books (name TEXT, id INT, price FLOAT)')
         
         print ('Table made')
