@@ -25,7 +25,7 @@ def do_the_login(u,p):
     con = sqlite3.connect('users.db')
     cur = con.cursor();
     if u == "admin" and p == "p445w0rd":
-        return render_template('stocks.html' ,page=url_for('stocks'))
+         return redirect(url_for('stocks'))
     cur.execute("SELECT count(*) FROM users WHERE Username=? AND Password=?;", (u, p))
     
     if(int(cur.fetchone()[0]))>0:
