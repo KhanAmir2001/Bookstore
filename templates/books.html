@@ -6,10 +6,10 @@
 </head>
 <body>
 	<div>
-		{% with messages = get_flashed_messages() %}
+		{% with messages = get_flashed_messages() %}   <!-- This HTML page is taken from the zip file provided with the course -->
 		  {% if messages %}
 			<ul class=flashes>
-			{% for message in messages %}
+			{% for message in messages %}     
 			  <li>{{ message }}</li>
 			{% endfor %}
 			</ul>
@@ -30,19 +30,19 @@
 					<th style="text-align:left;">Name</th>
 					<th style="text-align:left;">Code</th>
 					<th style="text-align:right;" width="5%">Quantity</th>
-					<th style="text-align:right;" width="10%">Unit Price</th>
+					<th style="text-align:right;" width="10%">Unit Price</th> <!-- aligns all the text around the purchase area -->
 					<th style="text-align:right;" width="10%">Price</th>
 					<th style="text-align:center;" width="5%">Remove</th>
 				</tr>
 				{% for key, val in session['cart_item'].items() %}
 					{% set quantity = session['cart_item'][key]['quantity'] %}
-					{% set price = session['cart_item'][key]['price'] %}
+					{% set price = session['cart_item'][key]['price'] %}  <!-- leaves all the parts provided from database or code open in square brackets so the details can be set -->
 					{% set item_price = session['cart_item'][key]['total_price'] %}					
 					<tr>
 						<td><img src="/static/images/{{ session['cart_item'][key]['image'] }}" class="cart-item-image" />{{ session['cart_item'][key]['name'] }}</td>
 						<td>{{ session['cart_item'][key]['code'] }}</td>
-						<td style="text-align:right;">{{ quantity }}</td>
-						<td  style="text-align:right;">&#8356; {{ price }}</td>
+						<td style="text-align:right;">{{ quantity }}</td> <!-- allows all the information to be obtained from the database -->
+						<td  style="text-align:right;">&#8356; {{ price }}</td>    
 						<td  style="text-align:right;">&#8356; {{ item_price }}</td>
 						<td style="text-align:center;">
 							<a href="{{ url_for('.delete_product', code=session['cart_item'][key]['code']) }}" class="btnRemoveAction">
