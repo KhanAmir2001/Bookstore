@@ -1,0 +1,26 @@
+<html>
+   <body>
+       <form action="/" method="post">
+          <input type="submit" name="Log_Out" value="Log_Out">
+          <input type="submit" name="Add_Stocks" value="Add_Stocks">
+       </form>
+       
+      <table border = 1>
+         <thead>
+            <td>Name</td>
+            <td>ID</td>
+            <td>Price</td>
+         </thead>
+         
+         {% for row in rows %}
+            <tr>
+               <td>{{row["name"]}}</td>
+               <td>{{row['id']}}</td>
+                <td>{{row['price']}}</td>	
+            </tr>
+         {% endfor %}
+      </table>
+
+       
+   </body>
+</html> 

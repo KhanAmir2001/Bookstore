@@ -99,6 +99,8 @@ def buttons():
     if request.method == 'POST':
         if request.form['Add_Stocks'] == 'Add_Stocks':
             return redirect(url_for('admin'))
+        
+
 
 
     
