@@ -19,7 +19,7 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 ALLOWED_EXTNENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
-@app.route('/login' , methods=['GET', 'POST'])
+@app.route('/' , methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         return do_the_login(request.form['uname'], request.form['pwd'])
@@ -68,21 +68,9 @@ def upload_image():
 
 #https://www.youtube.com/watch?v=I9BBGulrOmo
 
-@app.route("/", methods=['GET'])
+@app.route("/login", methods=['GET'])
 def homepage():
         
-    con = sqlite3.connect('books.db')
-    
-    try: 
-        con.execute('CREATE TABLE books (name TEXT, id INT, price FLOAT)')
-        
-        print ('Table made')
-    except:
-        pass
-        print("table already created")
-        
-    con.close()
-    
     con = sqlite3.connect("books.db")
     con.row_factory = sqlite3.Row
     cur = con.cursor()
@@ -91,7 +79,7 @@ def homepage():
     
     return render_template("books.html",rows = rows)
 
-@app.route("/", methods=['POST'])
+@app.route("/login", methods=['POST'])
 def buttons():
     if request.method == 'POST':
         if request.form['Log_Out'] == 'Log_Out':

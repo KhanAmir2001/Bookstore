@@ -21,10 +21,9 @@ def books():
     con = sqlite3.connect("books.db")
     con.row_factory = sqlite3.Row
     cur = con.cursor()
-    cur.execute('INSERT INTO books(isbn, name, cover, desc, price, date, quantity) VALUES (0, "little red riding hood", "red.jpg", "girl fights wold", 12.00, "16/03/67", 4)')
+    cur.execute('INSERT INTO books(isbn, name, cover, desc, price, date, quantity) VALUES (0, "little red riding hood", "red.jpg", "girl fights wolf", 12.00, "16/03/67", 4)')
     cur.execute("SELECT * from books")
     rows = cur.fetchall();
     
-    return render_template("test.html",rows = rows)
-
+    
 app.run(host="0.0.0.0")
