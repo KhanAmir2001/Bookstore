@@ -6,9 +6,18 @@ from flask import request
 from flask import redirect
 from flask import abort
 from flask import make_response
+import urllib.request
+import os
+from werkzeug.utils import secure_filename
 import sqlite3
 
+UPLOAD_FOLDER = 'UPLOAD_FOLDER'
+
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+
+ALLOWED_EXTNENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 @app.route('/login' , methods=['GET', 'POST'])
 def login():
@@ -35,13 +44,33 @@ def do_the_login(u,p):
     
 @app.route("/stocks")
 def admin():
+    #name_of_slider = request.form["name_of_slider"]
     return render_template('stocks.html')
 
-@app.route("/", methods=['GET', 'POST'])
+@app.route("/stocks", methods=['POST'])
+def upload_image():
+    if 'file' not in request.files:
+        flash('No file part')
+        return redirect(request.url)
+    file = request.files['file']
+    if file.filename == '':
+        flash('No image selected for uploading')
+        return redirect(request.url)
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        #print('upload_image filename: ' + filename)
+        flash('Image successfully uploaded and displayed below')
+        return render_template('stocks.html', filename=filename)
+    else:
+        flash('Allowed image types are - png, jpg, jpeg, gif')
+        return redirect(request.url)
+
+#https://www.youtube.com/watch?v=I9BBGulrOmo
+
+@app.route("/", methods=['GET'])
 def homepage():
         
-    if request.method == 'POST':
-        return redirect(url_for('admin'))
     con = sqlite3.connect('books.db')
     
     try: 
@@ -61,6 +90,15 @@ def homepage():
     rows = cur.fetchall();
     
     return render_template("books.html",rows = rows)
+
+@app.route("/", methods=['POST'])
+def buttons():
+    if request.method == 'POST':
+        if request.form['Log_Out'] == 'Log_Out':
+            return redirect(url_for('login'))
+    if request.method == 'POST':
+        if request.form['Add_Stocks'] == 'Add_Stocks':
+            return redirect(url_for('admin'))
 
 
     
