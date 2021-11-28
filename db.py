@@ -1,29 +1,16 @@
 from flask import Flask
 from flask import render_template
-import sqlite3
+import sqlite3 
 
-app = Flask(__name__)
+con = sqlite3.connect('products.db')
 
-@app.route('/books')
-def books():
-    con = sqlite3.connect('books.db')
-    
-    try:
-        con.execute('CREATE TABLE books (name TEXT, isbn INT, price DOUBLE, date TEXT, desc TEXT, cover TEXT, quantity INT)')
-        
-        print ('Table made')
-    except:
-        pass
-        print("table already created")
-        
-    con.close()
-    
-    con = sqlite3.connect("books.db")
-    con.row_factory = sqlite3.Row
-    cur = con.cursor()
-    cur.execute('INSERT INTO books(isbn, name, cover, desc, price, date, quantity) VALUES (0, "little red riding hood", "red.jpg", "girl fights wolf", 12.00, "16/03/67", 4)')
-    cur.execute("SELECT * from books")
-    rows = cur.fetchall();
-    
-    
-app.run(host="0.0.0.0")
+con.execute('CREATE TABLE products(isbn INT unsigned, name VARCHAR(255), code VARCHAR(255), image TEXT, price DOUBLE)')
+
+con.close()  
+con = sqlite3.connect('products.db')
+
+con.execute('INSERT INTO products(isbn, name, code, image, price) VALUES (1, "Little red riding hood", "AMTR01", "product-images/red.jpg", 14.00),(2, "Alice in wonderland", "USB02", "product-images/alice.jpg", 32.00),(3, "Cinderella", "SH03", "product-images/cind.jpg", 1.00),(4, "minecraft survival guide", "LPN4", "product-images/mine.jpg", 80000.00);')
+            #,(5, "FinePix Pro2 3D Camera", "3DCAM01", "product-images/camera.jpg", 150000.00),(6, "Simple Mobile", "MB06", "product-images/mobile.jpg", 3000.00),(7, "Luxury Ultra thin Wrist Watch", "WristWear03", "product-images/watch.jpg", 3000.00),(8, "Headphones", "HD08", "product-images/headphone.jpg", 400.00);')
+
+con.commit()
+con.close()  
